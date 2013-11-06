@@ -1,0 +1,19 @@
+# turn off the visual bell warning(the screen flashes)
+vbell off
+
+# turn on the startup message
+startup_message on
+
+# Remap the ctrl-a to ctrl-q to avoid conflicts with command-line shortcut 
+escape ^Qq
+
+# change the scrollback buffer; by default, it is set to 100 lines
+defscrollback 5000
+
+# change the default character set to UTF-8
+defutf8 on
+
+# change the default name/highlight of tabs
+hardstatus alwayslastline
+hardstatus string '%{gk}[ %{G}%H %{g}][%= %{wk}%?%-Lw%?%{=b kR}(%{W}%n*%f %t%?(%u)%?%{=b kR})%{= kw}%?%+Lw%?%?%= %{g}][%{Y}%l%{g}] %{=b C}[ %m/%d %c ]%{W}'
+
