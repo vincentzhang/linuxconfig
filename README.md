@@ -1,4 +1,4 @@
 linuxconfig
 ===========
 
-a repository to put some linux configuration files
+A repository to put some linux configuration files
