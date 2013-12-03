@@ -13,17 +13,16 @@ stty start undef
 
 # User specific aliases and functions
 PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/X11R6/bin:/usr/sbin:/sbin
-# User specific aliases and functions
 export EDITOR=vi
 export PATH=/usr/local/java/jdk/bin:/hub/apps/PythonHome/bin:/usr/local/java/ant/bin:$PATH
 export JAVA_HOME=/usr/local/java/jdk
 export DHT=$HOME/projects/trunk 
-export DHTL=$HOME/projects/dhs-799
-export TEMPLATE=$HOME/projects/dhs-730/src/pylons/datahub/datahub/templates
-export RF_DOWNLOAD_JARS=TRUE
 export PATH=$PATH:/hub/apps/Python-2.5/bin
+export RF_DOWNLOAD_JARS=TRUE
 
 source /home/hub/.scripts/engage.sh
+source /home/hub/.scripts/paths.sh
+
 alias rm_unversion='svn st | grep '"'"'?'"'"' | awk '"'"'{print $2}'"'"' | xargs rm -rf'
 alias ls_dir='ls -l | grep ^d'
 alias ls_dirc='ls -l | grep ^d | xargs -0 -I {} echo -e "\033[0;32m"{}"\033[0m" ' 
