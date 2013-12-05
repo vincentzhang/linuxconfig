@@ -13,11 +13,7 @@ stty start undef
 
 # User specific aliases and functions
 PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/X11R6/bin:/usr/sbin:/sbin
-export EDITOR=vi
-export PATH=/usr/local/java/jdk/bin:/hub/apps/PythonHome/bin:/usr/local/java/ant/bin:$PATH
-export JAVA_HOME=/usr/local/java/jdk
 export DHT=$HOME/projects/trunk 
-export PATH=$PATH:/hub/apps/Python-2.5/bin
 export RF_DOWNLOAD_JARS=TRUE
 
 source /home/hub/.scripts/engage.sh
