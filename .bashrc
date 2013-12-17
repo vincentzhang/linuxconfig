@@ -19,6 +19,7 @@ export RF_DOWNLOAD_JARS=TRUE
 source /home/hub/.scripts/engage.sh
 source /home/hub/.scripts/paths.sh
 
+# remove unversioned files
 alias rm_unversion='svn st | grep '"'"'?'"'"' | awk '"'"'{print $2}'"'"' | xargs rm -rf'
 alias ls_dir='ls -l | grep ^d'
 alias ls_dirc='ls -l | grep ^d | xargs -0 -I {} echo -e "\033[0;32m"{}"\033[0m" ' 
