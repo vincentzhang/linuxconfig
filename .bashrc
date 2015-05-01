@@ -23,6 +23,9 @@ source /home/hub/.scripts/paths.sh
 alias rm_unversion='svn st | grep '"'"'?'"'"' | awk '"'"'{print $2}'"'"' | xargs rm -rf'
 alias ls_dir='ls -l | grep ^d'
 alias ls_dirc='ls -l | grep ^d | xargs -0 -I {} echo -e "\033[0;32m"{}"\033[0m" ' 
+alias svnrm='svn status | grep ^\? | cut -c9- | xargs -d \\n rm -r'
+alias svncf="svn status | grep -P '^(?=.{0,6}C)'"
+alias gopaster='paster serve --reload development.ini'
 
 hidden()
 {
