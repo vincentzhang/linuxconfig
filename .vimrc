@@ -5,10 +5,23 @@ call pathogen#infect()
 call pathogen#helptags()
 
 filetype plugin indent on
-set tabstop=4
-set shiftwidth=4
-set expandtab
+"set tabstop=4
+"set shiftwidth=4
+"set expandtab
 set hlsearch
+set showcmd
+set timeoutlen=200 "define the delay of the lead key
+
+au BufNewFile,BufRead *.py
+    \ set tabstop=42|
+    \ set softtabstop=2 |
+    \ set shiftwidth=2 |
+    \ set textwidth=79 |
+    \ set expandtab |
+    \ set autoindent |
+    \ set fileformat=unix |
+
+let mapleader=" "
 
 " Highlight trailing whitespaces
 autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
@@ -65,3 +78,25 @@ set laststatus=2
 " Use 256 colours (Use this setting only if your terminal supports 256
 " colours)
 set t_Co=256
+
+" Split navigations
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+" Enable folding
+set foldmethod=indent
+set foldlevel=99
+
+" Enable folding with the spacebar
+nnoremap <space> za
+
+" YouCompleteMe settings
+let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
+let g:ycm_autoclose_preview_window_after_completion=1
+map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
+" For SimpleFold
+autocmd BufWinEnter *.py setlocal foldexpr=SimpylFold(v:lnum) foldmethod=expr
+autocmd BufWinLeave *.py setlocal foldexpr< foldmethod<
