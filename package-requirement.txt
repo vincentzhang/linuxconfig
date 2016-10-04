@@ -2,3 +2,5 @@ pathogen
 ctrlp
 sensible
 powerline
+SimplyFold
+YouCompleteMe
