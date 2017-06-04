@@ -34,6 +34,7 @@ import XMonad.Hooks.ICCCMFocus
 import qualified XMonad.StackSet as W
 import qualified Data.Map as M
 import Data.Ratio ((%))
+import XMonad.Actions.CycleWS
 
 {-
   Xmonad configuration variables. These settings control some of the
@@ -45,6 +46,7 @@ myFocusedBorderColor = "#ff0000"      -- color of focused border
 myNormalBorderColor  = "#cccccc"      -- color of inactive border
 myBorderWidth        = 1              -- width of border around windows
 myTerminal           = "rxvt"   -- which terminal software to use
+--myTerminal           = "gnome-terminal"   -- which terminal software to use
 --myTerminal           = "terminator"   -- which terminal software to use
 myIMRosterTitle      = "Buddy List"   -- title of roster on IM workspace
                                       -- use "Buddy List" for Pidgin, but
@@ -208,7 +210,12 @@ myKeyBindings =
     , ((myModMask, xK_z), sendMessage MirrorExpand)
     , ((myModMask, xK_p), spawn "synapse")
     , ((myModMask .|. mod1Mask, xK_space), spawn "synapse")
+    , ((myModMask .|. mod1Mask, xK_l), spawn "gnome-screensaver-command -l")
+    -- Sleep
+    , ((myModMask .|. mod1Mask,  xK_s), spawn "sudo pm-suspend")
     , ((myModMask, xK_u), focusUrgent)
+    , ((myModMask, xK_g), moveTo Next HiddenNonEmptyWS)
+    , ((myModMask, xK_s), swapNextScreen) -- swap contents of current screen with next, focus stays here
     , ((0, 0x1008FF12), spawn "amixer -q set Master toggle")
     , ((0, 0x1008FF11), spawn "amixer -q set Master 10%-")
     , ((0, 0x1008FF13), spawn "amixer -q set Master 10%+")

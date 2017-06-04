@@ -1,21 +1,24 @@
 " this is the vim settings of vincent's workspace
 " enable file type detection
+set nocp
 filetype off
 call pathogen#infect()
 call pathogen#helptags()
 
 filetype plugin indent on
-"set tabstop=4
-"set shiftwidth=4
-"set expandtab
+set tabstop=4
+set shiftwidth=4
+set expandtab
 set hlsearch
 set showcmd
 set timeoutlen=200 "define the delay of the lead key
+set backspace=indent,eol,start
+set nu
 
 au BufNewFile,BufRead *.py
     \ set tabstop=42|
-    \ set softtabstop=2 |
-    \ set shiftwidth=2 |
+    \ set softtabstop=4 |
+    \ set shiftwidth=4 |
     \ set textwidth=79 |
     \ set expandtab |
     \ set autoindent |
@@ -29,14 +32,19 @@ autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
 syntax enable
 syntax on
 
-let g:pymode_python = 'disable'
+"let g:pymode_python = 'disable'
 " PYMODE settings
-let g:pymode_rope_lookup_project = 0
-let g:pymode_rope = 0
-let g:pymode_rope_complete_on_dot = 0
+"let g:pymode_rope_lookup_project = 0
+"let g:pymode_rope = 0
+"let g:pymode_rope_complete_on_dot = 0
 
 " select color scheme from /usr/share/vim/vim73/colors/
-colorscheme desert
+let base16colorspace=256  " Access colors present in 256 colorspace
+"colorscheme desert
+"colorscheme base16-default-dark
+colorscheme base16-ocean
+"colorscheme base16-google-dark
+"colorscheme base16-onedark
 " colorscheme elflord
 match ExtraWhitespace /\s\+$\| \+\ze\t/
 
@@ -93,9 +101,9 @@ set foldlevel=99
 nnoremap <space> za
 
 " YouCompleteMe settings
-let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
-let g:ycm_autoclose_preview_window_after_completion=1
-map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+"let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
+"let g:ycm_autoclose_preview_window_after_completion=1
+"map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 " For SimpleFold
 autocmd BufWinEnter *.py setlocal foldexpr=SimpylFold(v:lnum) foldmethod=expr

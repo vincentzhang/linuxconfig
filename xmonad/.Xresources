@@ -38,7 +38,7 @@ URxvt.fading:               0
 ! URxvt.urgentOnBell:         true
 ! URxvt.visualBell:           true
 URxvt.loginShell:           true
-URxvt.saveLines:            50
+URxvt.saveLines:            500
 URxvt.internalBorder:       3
 URxvt.lineSpace:            0
 
@@ -56,9 +56,13 @@ URxvt.scrollStyle:          rxvt
 URxvt.scrollBar:            false
 
 ! Perl extensions
-URxvt.perl-ext-common:      default,matcher
+!URxvt.perl-ext-common:      default,matcher,selection-to-clipboard,keyboard-select,clipboard
+URxvt.perl-ext-common:      default,matcher,clipboard
 URxvt.matcher.button:       1
-URxvt.urlLauncher:          chromium-browser
+! thanks to https://jorge.fbarr.net
+URxvt.url-launcher:          /usr/bin/chromium-browser
+URxvt.keysym.Shift-Control-V: perl:clipboard:paste
+URxvt.iso14755: 	False
 
 ! Cursor
 URxvt.cursorBlink:          true
