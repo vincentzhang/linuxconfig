@@ -1,90 +1,158 @@
-# .bashrc
+# ~/.bashrc: executed by bash(1) for non-login shells.
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+# for examples
 
-# Source global definitions
-if [ -f /etc/bashrc ]; then
-	. /etc/bashrc
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
+# don't put duplicate lines or lines starting with space in the history.
+# See bash(1) for more options
+HISTCONTROL=ignoreboth
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# If set, the pattern "**" used in a pathname expansion context will
+# match all files and zero or more directories and subdirectories.
+#shopt -s globstar
+
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# set variable identifying the chroot you work in (used in the prompt below)
+if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
+    debian_chroot=$(cat /etc/debian_chroot)
 fi
 
-# turn off Ctrl+s XOFF
-stty ixany
-stty ixoff -ixon
-stty stop undef
-stty start undef
+# set a fancy prompt (non-color, unless we know we "want" color)
+case "$TERM" in
+    xterm-color) color_prompt=yes;;
+esac
 
-# User specific aliases and functions
-PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/X11R6/bin:/usr/sbin:/sbin
-export DHT=$HOME/projects/trunk 
-export RF_DOWNLOAD_JARS=TRUE
+# uncomment for a colored prompt, if the terminal has the capability; turned
+# off by default to not distract the user: the focus in a terminal window
+# should be on the output of commands, not on the prompt
+#force_color_prompt=yes
 
-source /home/hub/.scripts/engage.sh
-source /home/hub/.scripts/paths.sh
-
-# remove unversioned files
-alias rm_unversion='svn st | grep '"'"'?'"'"' | awk '"'"'{print $2}'"'"' | xargs rm -rf'
-alias ls_dir='ls -l | grep ^d'
-alias ls_dirc='ls -l | grep ^d | xargs -0 -I {} echo -e "\033[0;32m"{}"\033[0m" ' 
-alias svnrm='svn status | grep ^\? | cut -c9- | xargs -d \\n rm -r'
-alias svncf="svn status | grep -P '^(?=.{0,6}C)'"
-alias gopaster='paster serve --reload development.ini'
-
-hidden()
-{
-    ls -a "$@" | grep '^\.';
-}
-
-# X11 forwarding
-# export DISPLAY=10.101.10.58:0.0
-
-# useful bash functions, got it off the confluence page
-ff()
-{
-    if [$# -lt 1]
-    then
-        echo "find . -not -path \"*.svn*\" -exec grep --color=auto -In \"<search term>\" '<>' \; -print"
-        return
+if [ -n "$force_color_prompt" ]; then
+    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+	# We have color support; assume it's compliant with Ecma-48
+	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+	# a case would tend to support setf rather than setaf.)
+	color_prompt=yes
+    else
+	color_prompt=
     fi
-    find . -not -path "*.svn*" -exec grep --color=auto -In "$*" '<>' \; -print
-}
+fi
 
-fu()
-{
-    if [$# -ne 1]
-    then
-        echo "echo |gawk '<print strftime(\"%a %b %e %T %Z %Y\", <UNIX TIMESTAMP>)>'"
-        return
-    fi
-    echo |gawk "<print strftime(\"%a %b %e %T %Z %Y\", $1)>"
-}
+if [ "$color_prompt" = yes ]; then
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+else
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+fi
+unset color_prompt force_color_prompt
 
-# read your man page as a pdf
-manpdf(){ man -t $1 | ps2pdf - - | acroread -; }
+# If this is an xterm set the title to user@host:dir
+case "$TERM" in
+xterm*|rxvt*)
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+    ;;
+*)
+    ;;
+esac
 
-# xkcd
-xkcd()
-{ local f=$(curl -s http://xkcd.com/);display $(echo "$f"|grep -Po '(?<=")http://imgs.xkcd.com/comics/[^"]+(png|jpg)');echo "$f"|awk '/<img src="http:\/\/imgs\.xkcd\.com\/comics\/.*?" title=.*/<gsub(/^.*title=.|".*?$/,"");print>';}
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    #alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
 
-# function to search for an exact filename
-function flocate
-{
-  if [ $# -gt 1 ] ; then
-    display_divider=1
-  else
-    display_divider=0
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+
+# some more ls aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
+# Add an "alert" alias for long running commands.  Use like so:
+#   sleep 10; alert
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
+# Alias definitions.
+# You may want to put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
   fi
+fi
 
-  current_argument=0
-  total_arguments=$#
-  while [ ${current_argument} -lt ${total_arguments} ] ; do
-    current_file=$1
-    if [ "${display_divider}" = "1" ] ; then
-      echo "----------------------------------------"
-      echo "Matches for ${current_file}"
-      echo "----------------------------------------"
-    fi
+# For Base16 Shell
+BASE16_SHELL=$HOME/.config/base16-shell/
+[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
 
-    filename_re="^\(.*/\)*$( echo ${current_file} | sed s%\\.%\\\\.%g )$"
-    locate -r "${filename_re}"
-    shift
-    (( current_argument = current_argument + 1 ))
-  done
-}
+# For Keras
+export PYTHONPATH=/data/repo/keras/keras:$PYTHONPATH
+
+# For Cudnn
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64:/data/repo/py-faster-rcnn/caffe-fast-rcnn/build/lib
+export PATH=$PATH:/usr/local/cuda/bin
+
+# Set vim as the default editor in bash
+export VISUAL=vim
+export EDITOR="$VISUAL"
+
+# For MxNet
+export PYTHONPATH=/data/repo/mxnet/python:$PYTHONPATH
+
+# For selective_search_ijcv_with_python 
+export PYTHONPATH=/data/repo:$PYTHONPATH
+
+# For Matlab
+export PATH=$PATH:/usr/work1/MATLAB/R2016a/bin
+
+# For Caffe
+export PYTHONPATH=/data/repo/py-faster-rcnn/caffe-fast-rcnn/python:$PYTHONPATH
+# For latest caffe
+#export PYTHONPATH=/data/repo/caffe/python:$PYTHONPATH
+export PYTHONPATH=/data/repo/fcn.berkeleyvision.org:$PYTHONPATH
+export DOCKER_NVIDIA_DEVICES="--device /dev/nvidia0:/dev/nvidia0 --device /dev/nvidiactl:/dev/nvidiactl --device /dev/nvidia-uvm:/dev/nvidia-uvm"
+
+# for virtualenvwrapper
+VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+export WORKON_HOME=$HOME/.virtualenvs
+export PROJECT_HOME=/data/repo/
+source /usr/local/bin/virtualenvwrapper.sh
+
+alias ack='ack-grep'
+
+export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/local/lib/pkgconfig
+
+# tensorflow
+export LD_LIBRARY_PATH=/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
