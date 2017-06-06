@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=XMonad
+Comment=Lightweight tiling window manager
+Exec=/home/vzhang/.xmonad/start-xmonad
+Icon=custom_xmonad_badge.png
+Type=XSession
