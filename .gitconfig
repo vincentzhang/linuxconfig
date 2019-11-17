@@ -1,0 +1,9 @@
+[user]
+	email = vincent.zhang@ualberta.ca
+	name = VincentZhang
+[push]
+	default = simple
+[alias]
+    st = status
+    ci = commit -v -m
+    df = diff
